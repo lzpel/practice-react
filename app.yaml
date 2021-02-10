@@ -1,0 +1,7 @@
+runtime: go112
+handlers:
+  - url: /(.*\.(gif|png|jpg|ico|js|json|css|svg|map|txt|html))
+    static_files: build/\1
+    upload: build/.*\.(gif|png|jpg|ico|js|json|css|svg|map|txt|html)
+#- url: /
+# script: auto
