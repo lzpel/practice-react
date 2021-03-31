@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { fade, makeStyles } from '@material-ui/core/styles';
+import {fade, makeStyles} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
 import Box from '@material-ui/core/Box';
@@ -20,25 +20,13 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import { mainListItems, secondaryListItems } from './ListItems';
+import {mainListItems, secondaryListItems} from './ListItems';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 import Chart from './Chart';
 import Deposits from './Deposits';
 import Orders from './Orders';
-
-function Copyright() {
-    return (
-        <Typography variant="body2" color="textSecondary" align="center">
-            {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
-                Your Website
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
-
-const drawerWidth = 240;
+import ReactFlow from 'react-flow-renderer';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -171,20 +159,78 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+function Copyright() {
+    return (
+        <Typography variant="body2" color="textSecondary" align="center">
+            {'Copyright © '}
+            <Link color="inherit" href="https://material-ui.com/">
+                Your Website
+            </Link>{' '}
+            {new Date().getFullYear()}
+            {'.'}
+        </Typography>
+    );
+}
+
+interface TabPanelProps {
+    children?: React.ReactNode;
+    index: any;
+    value: any;
+}
+
+function TabContainer(props: TabPanelProps) {
+    const {children, value, index, ...other} = props;
+    console.log(children)
+    return (
+
+        <Container
+            role="tabpanel"
+            hidden={value !== index}
+            maxWidth="lg"
+            id={`simple-tabpanel-${index}`}
+            aria-labelledby={`simple-tab-${index}`}
+            {...other}
+        >
+            <div>{children}</div>
+        </Container>
+    );
+}
+
+function a11yProps(index: any) {
+    return {
+        id: `simple-tab-${index}`,
+        'aria-controls': `simple-tabpanel-${index}`,
+    };
+}
+
+const drawerWidth = 240;
+
 export default function Dashboard() {
     const classes = useStyles();
-    const [open, setOpen] = React.useState(true);
+    //状態
+    const [open, setOpen] = React.useState(false);
+    const [value, setValue] = React.useState(0);
+    const elements = [
+        { id: '1', data: { label: 'Node 1' }, position: { x: 250, y: 5 } },
+        // you can also pass a React component as a label
+        { id: '2', data: { label: <div>Node 2</div> }, position: { x: 100, y: 100 } },
+        { id: 'e1-2', source: '1', target: '2', animated: true },
+    ];
+    //変更
     const handleDrawerOpen = () => {
         setOpen(true);
     };
     const handleDrawerClose = () => {
         setOpen(false);
     };
+    const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+        setValue(newValue);
+    };
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
     return (
         <div className={classes.root}>
-            <CssBaseline />
+            <CssBaseline/>
             <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
                 <Toolbar className={classes.toolbar}>
                     <IconButton
@@ -194,14 +240,14 @@ export default function Dashboard() {
                         onClick={handleDrawerOpen}
                         className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
                     >
-                        <MenuIcon />
+                        <MenuIcon/>
                     </IconButton>
                     <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
                         React Mockup
                     </Typography>
                     <div className={classes.search}>
                         <div className={classes.searchIcon}>
-                            <SearchIcon />
+                            <SearchIcon/>
                         </div>
                         <InputBase
                             placeholder="Search…"
@@ -209,13 +255,13 @@ export default function Dashboard() {
                                 root: classes.inputRoot,
                                 input: classes.inputInput,
                             }}
-                            inputProps={{ 'aria-label': 'search' }}
+                            inputProps={{'aria-label': 'search'}}
                         />
                     </div>
-                    <div className={classes.grow} />
+                    <div className={classes.grow}/>
                     <IconButton color="inherit">
                         <Badge badgeContent={4} color="secondary">
-                            <NotificationsIcon />
+                            <NotificationsIcon/>
                         </Badge>
                     </IconButton>
                 </Toolbar>
@@ -229,41 +275,51 @@ export default function Dashboard() {
             >
                 <div className={classes.toolbarIcon}>
                     <IconButton onClick={handleDrawerClose}>
-                        <ChevronLeftIcon />
+                        <ChevronLeftIcon/>
                     </IconButton>
                 </div>
-                <Divider />
+                <Divider/>
                 <List>{mainListItems}</List>
-                <Divider />
+                <Divider/>
                 <List>{secondaryListItems}</List>
             </Drawer>
             <main className={classes.content}>
-                <div className={classes.appBarSpacer} />
-                <Container maxWidth="lg" className={classes.container}>
+                <div className={classes.appBarSpacer}/>
+                <ReactFlow elements={elements} />;
+                <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
+                    <Tab label="Item One" {...a11yProps(0)} />
+                    <Tab label="Item Two" {...a11yProps(1)} />
+                    <Tab label="Item Three" {...a11yProps(2)} />
+                </Tabs>
+
+                <TabContainer value={value} index={0}>
                     <Grid container spacing={3}>
                         {/* Chart */}
                         <Grid item xs={12} md={8} lg={9}>
                             <Paper className={fixedHeightPaper}>
-                                <Chart />
+                                <Chart/>
                             </Paper>
                         </Grid>
                         {/* Recent Deposits */}
                         <Grid item xs={12} md={4} lg={3}>
                             <Paper className={fixedHeightPaper}>
-                                <Deposits />
+                                <Deposits/>
                             </Paper>
                         </Grid>
                         {/* Recent Orders */}
                         <Grid item xs={12}>
                             <Paper className={classes.paper}>
-                                <Orders />
+                                <Orders/>
                             </Paper>
                         </Grid>
                     </Grid>
-                    <Box pt={4}>
-                        <Copyright />
-                    </Box>
-                </Container>
+                </TabContainer>
+                <TabContainer value={value} index={1}>
+                </TabContainer>
+
+                <Box pt={4}>
+                    <Copyright/>
+                </Box>
             </main>
         </div>
     );

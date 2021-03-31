@@ -7,6 +7,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 とりあえず公式ツールでts+reactプロジェクトを立てた
 
 npm install --save-dev create-react-app
+
 npx create-react-app practice-react --template typescript
 
 ## Available Scripts

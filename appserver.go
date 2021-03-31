@@ -39,10 +39,8 @@ func HandleSample() {
 	})
 }
 
-func Credentialize(credential_json_path string) {
-	var e error
-	var bytes []byte
-	if bytes, e = ioutil.ReadFile(credential_json_path); e == nil {
+func Credential(credential_json_path string) {
+	if bytes, e := ioutil.ReadFile(credential_json_path);e == nil {
 		var fc map[string]string
 		if e = json.Unmarshal(bytes, &fc); e == nil {
 			for k, v := range fc {
@@ -50,8 +48,7 @@ func Credentialize(credential_json_path string) {
 			}
 			os.Setenv("GOOGLE_APPLICATION_CREDENTIALS", credential_json_path)
 		}
-	}
-	if e != nil {
+	}else{
 		log.Fatalln(e)
 	}
 }
@@ -77,8 +74,9 @@ func WriteTemplate(w io.Writer, value interface{}, funcMap map[string]interface{
 	}
 }
 
-func Redirect(w Response, r Request, url string) {
-	http.Redirect(w, r, url, 301)
+func Redirect(w Response, r Request, urlRaw string) {
+	fmt.Println(urlRaw)
+	http.Redirect(w, r, urlRaw, 302)
 }
 
 func GetMultipartFileHeaders(r Request) map[string][]*multipart.FileHeader {
