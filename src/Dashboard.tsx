@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import {makeStyles} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -20,7 +20,7 @@ import ListItemsDrawer from './ListItemsDrawer';
 import Chart from './Chart';
 import Deposits from './Deposits';
 import Orders from './Orders';
-import ReactFlow, {ArrowHeadType} from 'react-flow-renderer';
+import Flow from './Flow';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -126,23 +126,10 @@ function a11yProps(index: any) {
     };
 }
 
+
 export default function Dashboard() {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
-    const elements = [
-        { id: '1', data: { label: 'Node 1' }, position: { x: 250, y: 5 } },
-        // you can also pass a React component as a label
-        { id: '2', data: { label: <div>Node 2</div> }, position: { x: 100, y: 100 } },
-        {
-            id: 'e1-2',
-            source: '1',
-            target: '2',
-            animated: true,
-            //label: 'ほげふが', labelShowBg: false,
-            arrowHeadType: ArrowHeadType.ArrowClosed,
-            //type: 'straight', //直線
-        },
-    ];
     const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
         setValue(newValue);
     };
@@ -175,7 +162,7 @@ export default function Dashboard() {
             <ListItemsDrawer/>
             <main className={classes.content}>
                 <div className={classes.appBarSpacer}/>
-                <ReactFlow elements={elements} />;
+                <Flow/>
                 <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
                     <Tab label="Item One" {...a11yProps(0)} />
                     <Tab label="Item Two" {...a11yProps(1)} />
