@@ -1,15 +1,11 @@
 import React from 'react';
 import clsx from 'clsx';
-import {fade, makeStyles} from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Drawer from '@material-ui/core/Drawer';
 import Box from '@material-ui/core/Box';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
 import Container from '@material-ui/core/Container';
@@ -17,8 +13,6 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -26,7 +20,7 @@ import ListItemsDrawer from './ListItemsDrawer';
 import Chart from './Chart';
 import Deposits from './Deposits';
 import Orders from './Orders';
-import ReactFlow from 'react-flow-renderer';
+import ReactFlow, {ArrowHeadType} from 'react-flow-renderer';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -139,7 +133,15 @@ export default function Dashboard() {
         { id: '1', data: { label: 'Node 1' }, position: { x: 250, y: 5 } },
         // you can also pass a React component as a label
         { id: '2', data: { label: <div>Node 2</div> }, position: { x: 100, y: 100 } },
-        { id: 'e1-2', source: '1', target: '2', animated: true },
+        {
+            id: 'e1-2',
+            source: '1',
+            target: '2',
+            animated: true,
+            //label: 'ほげふが', labelShowBg: false,
+            arrowHeadType: ArrowHeadType.ArrowClosed,
+            //type: 'straight', //直線
+        },
     ];
     const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
         setValue(newValue);
