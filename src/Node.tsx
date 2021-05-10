@@ -4,7 +4,9 @@ import { Handle,Position,NodeProps } from 'react-flow-renderer';
 
 export default memo(( props:NodeProps ) => {
     return (
-        <>
+        <div
+            className="react-flow__node-default"
+        >
             <Handle
                 type="target"
                 position={Position.Left}
@@ -32,6 +34,6 @@ export default memo(( props:NodeProps ) => {
                 id="b"
                 style={{ bottom: 10, top: 'auto', background: '#555' }}
             />
-        </>
+        </div>
     );
 });

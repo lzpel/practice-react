@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import ReactFlow, {ArrowHeadType} from "react-flow-renderer";
-import NodeIf from "./NodeIf"
+import Node from "./Node"
 
 const nodeTypes = {
    // selectorNode: ColorSelectorNode,jv
-    if:NodeIf
+    if:Node
 };
 
 const initialElements = [
